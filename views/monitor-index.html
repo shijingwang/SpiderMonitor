@@ -171,7 +171,7 @@ body {
 			$.get("/views/monitor-footer.html", function(v) {
 				footer = v;
 			});
-			$.get("/views/spider-dashboard.html", function(v) {
+			$.get("/dashboard/summary", function(v) {
 				datacontent = v;
 			});
 			$(document).ajaxStop(function() {

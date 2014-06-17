@@ -12,23 +12,19 @@ exports.summary = function(req, res) {
 			taskInfo.runTaskNumber = jd.data.length;
 		}
 		spiderdaemon.banTaskList(function(err, data) {
-			if (err) {
-				taskInfo.banTaskNumber = 0;
-			} else {
-				var jd = JSON.parse(data);
-				taskInfo.banTaskNumber = jd.data.length;
-			}
+			var jd = JSON.parse(data);
+			taskInfo.banTaskNumber = jd.data.length;
 			redis_access.biz_redis_status(function(err, data) {
-				var redisInfo = {};
-				if(err){
-					
-				}else{
-					redisInfo = data;
-				}
-				res.render('spider-dashboard-summary', {
-					'taskInfo' : taskInfo,
-					'redisInfo' : redisInfo
+				var redisInfo = data;
+				redis_access.run_task_list(function(err, data){
+					task_info_list = data;
+					res.render('spider-dashboard-summary', {
+						'taskInfo' : taskInfo,
+						'redisInfo' : redisInfo,
+						'taskInfoList':task_info_list,
+					});
 				});
+				
 			});
 		});
 	});

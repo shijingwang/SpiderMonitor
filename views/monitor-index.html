@@ -168,7 +168,7 @@ body {
 	<script type="text/javascript">
 		var header, lefter, footer, datacontent;
 		function initialPage() {
-			$.get("/task/list", function(v) {
+			$.get("/dashboard/summary", function(v) {
 				datacontent = v;
 			});
 			$(document).ajaxStop(function() {

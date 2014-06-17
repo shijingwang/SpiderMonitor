@@ -3,13 +3,13 @@
 	<a data-rel="tooltip" title="6 new members."
 		class="well span3 top-block" href="#">
 		<span
-		class="icon32 icon-red icon-globe"></span>
+		class="icon32 icon-color icon-globe"></span>
 		<div>抓取中的任务</div>
 		<div><%=taskInfo.runTaskNumber%></div>
 	</a> <a data-rel="tooltip" title="4 new pro members."
 		class="well span3 top-block" href="#">
 		 <span
-		class="icon32 icon-red icon-lightbulb"></span>
+		class="icon32 icon-color icon-lightbulb"></span>
 		<div>NM:<%=redisInfo.used_memory_human%>&nbsp;PM:<%=redisInfo.used_memory_peak_human%></div>
 		<div>KS:<%=redisInfo.dbsize%>&nbsp;MS:<%=redisInfo.used_memory_rss%></div>
 		<span class="notification green"><%=redisInfo.connected_clients%></span>
@@ -40,19 +40,27 @@
 					<tr>
 						<th>任务名</th>
 						<th>创建时间</th>
+						<th>完成时间</th>
 						<th>任务总数</th>
 						<th>已分发</th>
+						<th>出错任务</th>
 						<th>队列大小</th>
+						<th>Check Set</th>
 					</tr>
 				</thead>
 				<tbody>
+					<% taskInfoList.forEach(function(_taskInfo){ %>
 					<tr>
-						<td>Arkpharmic</td>
-						<td class="center">2012/01/01</td>
-						<td class="center">10000</td>
-						<td class="center">9000</td>
-						<td class="center">1000</td>
+						<td><%=_taskInfo.task_name%></td>
+						<td><%=_taskInfo._f_create_time%></td>
+						<td><%=_taskInfo._f_finish_time%></td>
+						<td><%=_taskInfo.total_task_num%></td>
+						<td><%=_taskInfo.dispatcher_num%></td>
+						<td><%=_taskInfo.error_num%></td>
+						<td><%=_taskInfo.queue_size%></td>
+						<td><%=_taskInfo.check_size%></td>
 					</tr>
+					<% }) %>
 				</tbody>
 			</table>
 		</div>

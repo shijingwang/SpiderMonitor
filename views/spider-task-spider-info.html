@@ -1,0 +1,58 @@
+<div class="row-fluid sortable">
+	<div class="box span12">
+		<div class="box-header well" data-original-title>
+			<h2>产品数据抓取情况</h2>
+			<div class="box-icon">
+				<a href="#" class="btn btn-minimize btn-round"><i
+					class="icon-chevron-up"></i></a>
+			</div>
+		</div>
+		<div class="box-content">
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>抓取平台</th>
+						<th>抓取数量</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% task_info.forEach(function(_task_info){ %>
+					<tr>
+						<td><%=_task_info.type%></td>
+						<td class="center"><%=_task_info.number%></td>
+					</tr>
+					<%})%>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="row-fluid sortable">
+	<div class="box span12">
+		<div class="box-header well" data-original-title>
+			<h2>文档下载情况</h2>
+			<div class="box-icon">
+				<a href="#" class="btn btn-minimize btn-round"><i
+					class="icon-chevron-up"></i></a>
+			</div>
+		</div>
+		<div class="box-content">
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>下载平台</th>
+						<th>下载数量</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% down_info.forEach(function(_down_info){ %>
+					<tr>
+						<td><%=_down_info.task_type%></td>
+						<td class="center"><%=_down_info.number%></td>
+					</tr>
+					<%})%>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -52,18 +52,22 @@ body {
 	<![endif]-->
 
 <!-- The fav icon -->
-<link rel="shortcut icon" href="img/favicon.ico">
+<link rel="shortcut icon" href="/views/img/favicon.ico">
 
 </head>
 
 <body>
 	<!--header-->
-	<div id="navbar" class="navbar"></div>
+	<div id="navbar" class="navbar">
+		<% include monitor-header  %>
+	</div>
 	<div class="container-fluid">
 		<div class="row-fluid">
 
 			<!--lefter-->
-			<div id="lefter"></div>
+			<div id="lefter">
+				<% include monitor-left %>
+			</div>
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
@@ -80,7 +84,9 @@ body {
 			<hr>
 
 			<!-- footer -->
-			<div id="footer" style="margin-top:30px;"></div>
+			<div id="footer" style="margin-top:30px;">
+				<% include monitor-footer %>
+			</div>
 
 		</div>
 	</div>
@@ -162,22 +168,10 @@ body {
 	<script type="text/javascript">
 		var header, lefter, footer, datacontent;
 		function initialPage() {
-			$.get("/views/monitor-header.html", function(v) {
-				header = v;
-			});
-			$.get("/views/monitor-left.html", function(v) {
-				lefter = v;
-			});
-			$.get("/views/monitor-footer.html", function(v) {
-				footer = v;
-			});
-			$.get("/dashboard/summary", function(v) {
+			$.get("/task/list", function(v) {
 				datacontent = v;
 			});
 			$(document).ajaxStop(function() {
-				$("#navbar").html(header);
-				$("#lefter").html(lefter);
-				$("#footer").html(footer);
 				$("#datacontent").html(datacontent);
 			})
 		}

@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
 connection.connect();
 query(connection);
 function query(connection) {
-	connection.query('select * from proxy limit 10',
+	connection.query('select * from proxy limit 3',
 			function(err, res, fields) {
 				console.log(res);
 			});

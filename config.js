@@ -8,13 +8,13 @@ module.exports = {
 		'port' : '3306',
 		'user' : 'root',
 		'password' : 'rainzgq',
-		'db' : 'spider'
+		'database' : 'spider'
 	},
 	'spider_data_db_server' : {
 		'host' : 'localhost',
 		'port' : '3306',
 		'user' : 'root',
 		'password' : 'rainzgq',
-		'db' : 'spiderv2_data'
+		'database' : 'spider_data'
 	},
 };

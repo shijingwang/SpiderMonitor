@@ -34,7 +34,7 @@ var biz_redis_status_inner = function(callback) {
 				if (name == 'used_memory_rss') {
 					redis_info.used_memory_rss = value;
 					var n = new Number(value);
-					redis_info.used_memory_rss_human = n/1024/1024;
+					redis_info.used_memory_rss_human = parseInt(n/1024/1024);
 				}
 				// 客户端连接数
 				if (name == 'connected_clients') {
@@ -78,7 +78,7 @@ var run_task_list_inner = function(callback) {
 					d.setTime(task_meta.create_time);
 					task_meta._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss', d);
 					task_meta.total_task_num = resdata.totalTaskNum;
-					if (task_meta.hasOwnProperty('finishTime')) {
+					if (task_meta.finishTime) {
 						task_meta.finish_time = resdata.finishTime;
 						d.setTime(task_meta.finish_time);
 						task_meta._f_finish_time = format.asString('yyyy-MM-dd hh:mm:ss', d);
@@ -86,17 +86,17 @@ var run_task_list_inner = function(callback) {
 						task_meta.finish_time = '未完成';
 						task_meta._f_finish_time = '未完成';
 					}
-					if (task_meta.hasOwnProperty('finishTaskNum')) {
+					if (task_meta.finishTaskNum) {
 						task_meta.finish_task_num = resdata.finishTaskNum;
 					} else {
 						task_meta.finish_task_num = '0';
 					}
-					if (task_meta.hasOwnProperty('dispatcherNum')) {
+					if (task_meta.dispatcherNum) {
 						task_meta.dispatcher_num = resdata.dispatcherNum;
 					} else {
 						task_meta.dispatcher_num = '0';
 					}
-					if (task_meta.hasOwnProperty('errorNum')) {
+					if (task_meta.errorNum) {
 						task_meta.error_num = resdata.errorNum;
 					} else {
 						task_meta.error_num = '0';
@@ -122,8 +122,3 @@ var run_task_list_inner = function(callback) {
 	});
 };
 exports.run_task_list=run_task_list_inner;
-run_task_list_inner(function(err, data) {
-	for(i in data){
-		console.log(data[i]);
-	}
-});

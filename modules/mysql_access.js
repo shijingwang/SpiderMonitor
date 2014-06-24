@@ -6,7 +6,7 @@ var config = require('../config.js');
 var task_type = require('../tasktype.js');
 var format = require('date-format');
 var util = require('util');
-//var db_spider = mysql.createConnection(config.spider_db_server);
+// var db_spider = mysql.createConnection(config.spider_db_server);
 
 // 查询任务抓取情况和文件下载情况
 var query_spider_data_inner = function(start_date, stop_date, callback) {
@@ -52,4 +52,31 @@ var proxy_list_inner = function(callback) {
 	});
 };
 exports.proxy_list = proxy_list_inner;
-//proxy_list_inner();
+var cas_site_list_inner = function(callback) {
+	var sql = "SELECT * FROM `cas_extract_site` order by id desc";
+	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
+	db_spider_data.connect();
+	db_spider_data.query(sql, function(err, sites, fields){
+		for(i in sites){
+			site = sites[i];
+			site._f_last_update_time = format.asString('yyyy-MM-dd hh:mm:ss',site.last_update_time);
+			site._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss',site.create_time);
+		}
+		var cassql = "select site_id,count(distinct(cas)) as num from site_cas group by site_id";
+		db_spider_data.query(cassql, sites, function(err, cass, fields){
+			for(i in sites){
+				site = sites[i];
+				for(j in cass){
+					cas = cass[j];
+					if(site.id==cas.site_id){
+						site.num = cas.num;
+					}
+				}
+			}
+			db_spider_data.end();
+			return callback(err, sites);
+		});
+	});
+};
+exports.cas_site_list = cas_site_list_inner
+// cas_site_list_inner();

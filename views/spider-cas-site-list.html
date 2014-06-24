@@ -1,0 +1,34 @@
+
+<div class="box span12">
+	<div class="box-header well" data-original-title>
+		<h2>CAS抓取网站清单</h2>
+		<div class="box-icon">
+			<a href="#" class="btn btn-minimize btn-round"><i
+				class="icon-chevron-up"></i></a>
+		</div>
+	</div>
+	<div class="box-content">
+		<table class="table table-bordered table-striped table-condensed">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>URL地址</th>
+					<th>抓取数量</th>
+					<th>详细数据</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% sites.forEach(function(site){ %>
+				<tr>
+					<td><%=site.name%></td>
+					<td><%=site.url%></td>
+					<td><%=site.num%></td>
+					<td><a href="<%=site.id%>">详情</a></td>
+					<td><a href="<%=site.id%>">刷新</a></td>
+				</tr>
+				<%})%>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -7,7 +7,8 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
 var task = require('./routes/task');
-var proxy = require('./routes/proxy')
+var proxy = require('./routes/proxy');
+var cas = require('./routes/cas');
 var http = require('http');
 var path = require('path');
 
@@ -34,6 +35,8 @@ app.use('/task/css', express.static(__dirname + '/views/css'));
 app.use('/task/img', express.static(__dirname + '/views/img'));
 app.use('/proxy/css', express.static(__dirname + '/views/css'));
 app.use('/proxy/img', express.static(__dirname + '/views/img'));
+app.use('/cas/css', express.static(__dirname + '/views/css'));
+app.use('/cas/img', express.static(__dirname + '/views/img'));
 /*
  * app.use(express.static(path.join(__dirname, '/views/css')));
  * app.use(express.static(path.join(__dirname, '/views/js')));
@@ -54,6 +57,9 @@ app.get('/task/index', task.index);
 app.get('/task/list', task.spider_task_list_info);
 app.get('/proxy/index', proxy.index);
 app.get('/proxy/list', proxy.list);
+app.get('/cas/index', cas.index);
+app.get('/cas/list', cas.list);
+app.get('/cas/detail', cas.detail);
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));

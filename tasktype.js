@@ -19,6 +19,9 @@ module.exports = {
 		'53' : 'sigmaaldrich msds',
 		'61' : 'acros',
 		'62' : 'acros product',
-		'63' : 'acros msds'
+		'63' : 'acros msds',
+		'71' : 'Guide common',
+		'74' : 'Guide msds',
+		'10001' : 'CAS extract'
 	}
 };

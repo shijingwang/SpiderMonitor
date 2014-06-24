@@ -78,7 +78,7 @@ var run_task_list_inner = function(callback) {
 					d.setTime(task_meta.create_time);
 					task_meta._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss', d);
 					task_meta.total_task_num = resdata.totalTaskNum;
-					if (task_meta.finishTime) {
+					if (resdata.finishTime) {
 						task_meta.finish_time = resdata.finishTime;
 						d.setTime(task_meta.finish_time);
 						task_meta._f_finish_time = format.asString('yyyy-MM-dd hh:mm:ss', d);
@@ -86,17 +86,17 @@ var run_task_list_inner = function(callback) {
 						task_meta.finish_time = '未完成';
 						task_meta._f_finish_time = '未完成';
 					}
-					if (task_meta.finishTaskNum) {
+					if (resdata.finishTaskNum) {
 						task_meta.finish_task_num = resdata.finishTaskNum;
 					} else {
 						task_meta.finish_task_num = '0';
 					}
-					if (task_meta.dispatcherNum) {
+					if (resdata.dispatcherNum) {
 						task_meta.dispatcher_num = resdata.dispatcherNum;
 					} else {
 						task_meta.dispatcher_num = '0';
 					}
-					if (task_meta.errorNum) {
+					if (resdata.errorNum) {
 						task_meta.error_num = resdata.errorNum;
 					} else {
 						task_meta.error_num = '0';

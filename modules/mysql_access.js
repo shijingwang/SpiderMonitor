@@ -2,6 +2,7 @@
  * 数据库访问操作代码
  */
 var mysql = require('mysql');
+var crypto = require('crypto');
 var config = require('../config.js');
 var task_type = require('../tasktype.js');
 var format = require('date-format');
@@ -78,5 +79,33 @@ var cas_site_list_inner = function(callback) {
 		});
 	});
 };
-exports.cas_site_list = cas_site_list_inner
-// cas_site_list_inner();
+exports.cas_site_list = cas_site_list_inner;
+var site_cas_data_list_inner = function(site_id, callback) {
+	var sql = "SELECT * FROM `site_cas` where site_id='%s' group by cas order by id desc";
+	sql = util.format(sql, site_id);
+	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
+	db_spider_data.connect();
+	db_spider_data.query(sql, function(err, cass, fields){
+		for(i in cass){
+			cas = cass[i];
+			cas._f_last_update_time = format.asString('yyyy-MM-dd hh:mm:ss',cas.last_update_time);
+			cas._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss',cas.create_time);
+		}
+		db_spider_data.end();
+		return callback(err, cass);
+	});
+};
+exports.site_cas_data_list = site_cas_data_list_inner;
+var site_insert_inner = function(name, url, callback) {
+	var md5 = crypto.createHash('md5');
+	md5.update(url);
+	var key = md5.digest('hex').toUpperCase();
+	var sql = "insert into cas_extract_site (name, url, _key, status) values ('%s', '%s', '%s', '0') ";
+	sql = util.format(sql, name, url, key);
+	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
+	db_spider_data.connect();
+	db_spider_data.query(sql, function(err, cass, fields){
+		return callback(err, cass);
+	});
+};
+exports.site_insert = site_insert_inner;

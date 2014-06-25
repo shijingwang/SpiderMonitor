@@ -12,7 +12,7 @@
 		http://twitter.com/halalit_usman
 	-->
 <meta charset="utf-8">
-<title>爬虫监控管理平台</title>
+<title>网站CAS数据清单</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description"
 	content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
@@ -73,23 +73,35 @@ body {
 					</p>
 				</div>
 			</noscript>
-			
+
 
 			<div id="content" class="span10">
-				<div class="box-content">
-					<form id="query_form" class="form-inline" style="margin-bottom:0px;" action="/task/list" method="get">
-						<label class="control-label" for="name">网站名称</label>
-						<input type="text" class="input-xlarge" style="width:120px" id="name" name="name" value="">
-						<label class="control-label" for="url">URL地址</label>
-						<input type="text" class="input-xlarge" style="width:120px" id="url" name="url" value="">
-						<button class="btn btn-primary" type="button" onclick="insertSite()"><i class="icon-search icon-white"></i>提交网站</button>
-					</form>
-				</div>
-				<div id="msg">
-					
-				</div>
-				<div id="datacontent">
-					
+				<div class="box span12">
+					<div class="box-header well" data-original-title>
+						<h2>CAS数据清单</h2>
+						<div class="box-icon">
+							<a href="#" class="btn btn-minimize btn-round"><i
+								class="icon-chevron-up"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<table class="table table-bordered table-striped table-condensed">
+							<thead>
+								<tr>
+									<th>CAS号</th>
+									<th>URL地址</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% cass.forEach(function(cas){ %>
+								<tr>
+									<td><%=cas.cas%></td>
+									<td><%=cas.url%></td>
+								</tr>
+								<%})%>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<hr>
@@ -176,33 +188,7 @@ body {
 	<!-- application script for Charisma demo -->
 	<script src="/js/charisma.js"></script>
 	<script type="text/javascript">
-		function insertSite(){
-			var content = document.getElementById('msg');
-			content.innerHTML='提交中...';
-			$.ajax({
-				type:"get",
-				url:"/cas/insert",
-				data:$("#query_form").serialize(),
-				success:function(result){
-					content.innerHTML = result;
-					document.getElementById("name").value='';
-					document.getElementById("url").value='';
-					refreshdata();
-				}
-			});
-		}
-		function refreshdata(){
-			var content = document.getElementById('datacontent');
-			content.innerHTML='loading';
-			$.ajax({
-				type:"get",
-				url:"/cas/list",
-				success:function(result){
-					$("#datacontent").html(result);
-				}
-			});
-		}
-		refreshdata();
+		
 	</script>
 </body>
 </html>

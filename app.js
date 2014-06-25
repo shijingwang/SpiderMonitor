@@ -8,6 +8,7 @@ var user = require('./routes/user');
 var dashboard = require('./routes/dashboard');
 var task = require('./routes/task');
 var proxy = require('./routes/proxy');
+var proxytest = require('./routes/proxytest');
 var cas = require('./routes/cas');
 var http = require('http');
 var path = require('path');
@@ -60,6 +61,8 @@ app.get('/proxy/list', proxy.list);
 app.get('/cas/index', cas.index);
 app.get('/cas/list', cas.list);
 app.get('/cas/detail', cas.detail);
+app.get('/cas/insert', cas.insert);
+app.get('/proxytest/index', proxytest.index);
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));

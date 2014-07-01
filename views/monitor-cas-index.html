@@ -78,6 +78,8 @@ body {
 			<div id="content" class="span10">
 				<div class="box-content">
 					<form id="query_form" class="form-inline" style="margin-bottom:0px;" action="/task/list" method="get">
+						<label class="control-label" for="name">商铺ID</label>
+						<input type="text" class="input-xlarge" style="width:120px" id="v_id" name="v_id" value="">
 						<label class="control-label" for="name">网站名称</label>
 						<input type="text" class="input-xlarge" style="width:120px" id="name" name="name" value="">
 						<label class="control-label" for="url">URL地址</label>
@@ -185,6 +187,7 @@ body {
 				data:$("#query_form").serialize(),
 				success:function(result){
 					content.innerHTML = result;
+					document.getElementById("v_id").value='';
 					document.getElementById("name").value='';
 					document.getElementById("url").value='';
 					refreshdata();

@@ -96,12 +96,12 @@ var site_cas_data_list_inner = function(site_id, callback) {
 	});
 };
 exports.site_cas_data_list = site_cas_data_list_inner;
-var site_insert_inner = function(name, url, callback) {
+var site_insert_inner = function(v_id, name, url, callback) {
 	var md5 = crypto.createHash('md5');
 	md5.update(url);
 	var key = md5.digest('hex').toUpperCase();
-	var sql = "insert into cas_extract_site (name, url, _key, status) values ('%s', '%s', '%s', '0') ";
-	sql = util.format(sql, name, url, key);
+	var sql = "insert into cas_extract_site (v_id, name, url, _key, status) values ('%s', '%s', '%s', '%s', '0') ";
+	sql = util.format(sql, v_id, name, url, key);
 	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
 	db_spider_data.connect();
 	db_spider_data.query(sql, function(err, cass, fields){

@@ -22,6 +22,16 @@ module.exports = {
 		'63' : 'acros msds',
 		'71' : 'Guide common',
 		'74' : 'Guide msds',
+		'81' : 'chemcas common',
+		'84' : 'chemcas msds',
+		'91' : 'energy chemical common',
+		'92' : 'energy chemical product',
+		'101' : 'adamas beta common',
+		'102' : 'adamas beta product',
+		'111'  : 'aladdin-e',
+		'121'  : 'shao-yuan',
+		'131'  : 'biderpharmatech',
+		'141'  : 'bepharm',
 		'10001' : 'CAS extract'
 	}
 };

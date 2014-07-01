@@ -23,6 +23,7 @@ app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use('/css', express.static(__dirname + '/views/css'));

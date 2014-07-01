@@ -15,10 +15,11 @@ exports.index = function(req, res) {
 
 exports.insert = function(req, res) {
 	var name = req.query.name;
+	var v_id = req.query.v_id;
 	var url = req.query.url;
 	res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
 	if (name && url) {
-		mysql_access.site_insert(name,url,function(err,result){
+		mysql_access.site_insert(v_id, name,url,function(err,result){
 			if(err){
 				message = '网站已经添加，不能重复添加';
 			}else{

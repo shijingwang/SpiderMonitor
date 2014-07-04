@@ -1,5 +1,21 @@
 
 <div class="box span12">
+	<form id="refreshsite" name="refreshsite" action="/cas/refresh" method="get">
+		<input type="hidden" id="site_id" name="id" value="" />
+	</form>
+	<script type="text/javascript">
+		function refreshSite(site_id){
+			document.getElementById('site_id').value=site_id
+			$.ajax({
+				type:"get",
+				url:"/cas/refresh",
+				data:$("#refreshsite").serialize(),
+				success:function(result){
+					alert(result);
+				}
+			});
+		}
+	</script>
 	<div class="box-header well" data-original-title>
 		<h2>CAS抓取网站清单</h2>
 		<div class="box-icon">
@@ -14,6 +30,7 @@
 					<th>名称</th>
 					<th>URL地址</th>
 					<th>抓取数量</th>
+					<th>操作</th>
 					<th>详细数据</th>
 				</tr>
 			</thead>
@@ -23,6 +40,10 @@
 					<td><%=site.name%></td>
 					<td><%=site.url%></td>
 					<td><%=site.num%></td>
+					<td><button class="btn btn-small" type="button"
+							onclick="refreshSite(<%=site.id%>)">
+							<i class="icon-eye-open"></i>刷新CAS
+						</button></td>
 					<td><a href="/cas/detail?site_id=<%=site.id%>" target="_blank">详情</a></td>
 				</tr>
 				<%})%>

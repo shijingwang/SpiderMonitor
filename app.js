@@ -63,6 +63,7 @@ app.get('/cas/index', cas.index);
 app.get('/cas/list', cas.list);
 app.get('/cas/detail', cas.detail);
 app.get('/cas/insert', cas.insert);
+app.get('/cas/refresh', cas.refresh);
 app.get('/proxytest/index', proxytest.index);
 
 http.createServer(app).listen(app.get('port'), function() {

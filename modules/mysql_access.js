@@ -1,6 +1,7 @@
 /**
  * 数据库访问操作代码
  */
+var URL = require('url'); 
 var mysql = require('mysql');
 var crypto = require('crypto');
 var config = require('../config.js');
@@ -16,25 +17,29 @@ var query_spider_data_inner = function(start_date, stop_date, callback) {
 	console.log('sql:' + sql);
 	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
 	db_spider_data.connect();
-	db_spider_data.query(sql,function(err, taskinfo, fields) {
-		for (i in taskinfo) {
-			var v = taskinfo[i];
-			v.type = task_type.tasktype[v.type];
-		}
-		var downsql = "SELECT task_type,count(*) as number FROM `file_download` WHERE create_time>='%s' and create_time<'%s' group by task_type;";
-		downsql = util.format(downsql, start_date, stop_date);
-		console.log('downsql:' + downsql);
-		db_spider_data.query(downsql, function(err, downinfo, fields) {
-			for (i in downinfo) {
-				var v = downinfo[i];
-				v.task_type = task_type.tasktype[v.task_type];
-			}
-			db_spider_data.end();
-			console.log(taskinfo);
-			console.log(downinfo);
-			return callback(err, taskinfo, downinfo);
-		});
-	});
+	db_spider_data
+			.query(
+					sql,
+					function(err, taskinfo, fields) {
+						for (i in taskinfo) {
+							var v = taskinfo[i];
+							v.type = task_type.tasktype[v.type];
+						}
+						var downsql = "SELECT task_type,count(*) as number FROM `file_download` WHERE create_time>='%s' and create_time<'%s' group by task_type;";
+						downsql = util.format(downsql, start_date, stop_date);
+						console.log('downsql:' + downsql);
+						db_spider_data.query(downsql, function(err, downinfo,
+								fields) {
+							for (i in downinfo) {
+								var v = downinfo[i];
+								v.task_type = task_type.tasktype[v.task_type];
+							}
+							db_spider_data.end();
+							console.log(taskinfo);
+							console.log(downinfo);
+							return callback(err, taskinfo, downinfo);
+						});
+					});
 
 };
 exports.query_spider_data = query_spider_data_inner;
@@ -42,11 +47,13 @@ var proxy_list_inner = function(callback) {
 	var sql = "SELECT * FROM `proxy` WHERE use_flag=1 order by use_times asc";
 	var db_spider = mysql.createConnection(config.spider_db_server);
 	db_spider.connect();
-	db_spider.query(sql, function(err, proxys, fields){
-		for(i in proxys){
+	db_spider.query(sql, function(err, proxys, fields) {
+		for (i in proxys) {
 			proxy = proxys[i];
-			proxy._f_last_use_time = format.asString('yyyy-MM-dd hh:mm:ss',proxy.last_use_time);
-			proxy._f_get_time = format.asString('yyyy-MM-dd hh:mm:ss',proxy.get_time);
+			proxy._f_last_use_time = format.asString('yyyy-MM-dd hh:mm:ss',
+					proxy.last_use_time);
+			proxy._f_get_time = format.asString('yyyy-MM-dd hh:mm:ss',
+					proxy.get_time);
 		}
 		db_spider.end();
 		return callback(err, proxys);
@@ -57,27 +64,34 @@ var cas_site_list_inner = function(callback) {
 	var sql = "SELECT * FROM `cas_extract_site` order by id desc";
 	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
 	db_spider_data.connect();
-	db_spider_data.query(sql, function(err, sites, fields){
-		for(i in sites){
-			site = sites[i];
-			site._f_last_update_time = format.asString('yyyy-MM-dd hh:mm:ss',site.last_update_time);
-			site._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss',site.create_time);
-		}
-		var cassql = "select site_id,count(distinct(cas)) as num from site_cas group by site_id";
-		db_spider_data.query(cassql, sites, function(err, cass, fields){
-			for(i in sites){
-				site = sites[i];
-				for(j in cass){
-					cas = cass[j];
-					if(site.id==cas.site_id){
-						site.num = cas.num;
-					}
-				}
-			}
-			db_spider_data.end();
-			return callback(err, sites);
-		});
-	});
+	db_spider_data
+			.query(
+					sql,
+					function(err, sites, fields) {
+						for (i in sites) {
+							site = sites[i];
+							site._f_last_update_time = format.asString(
+									'yyyy-MM-dd hh:mm:ss',
+									site.last_update_time);
+							site._f_create_time = format.asString(
+									'yyyy-MM-dd hh:mm:ss', site.create_time);
+						}
+						var cassql = "select site_id,count(distinct(cas)) as num from site_cas group by site_id";
+						db_spider_data.query(cassql, sites, function(err, cass,
+								fields) {
+							for (i in sites) {
+								site = sites[i];
+								for (j in cass) {
+									cas = cass[j];
+									if (site.id == cas.site_id) {
+										site.num = cas.num;
+									}
+								}
+							}
+							db_spider_data.end();
+							return callback(err, sites);
+						});
+					});
 };
 exports.cas_site_list = cas_site_list_inner;
 var site_cas_data_list_inner = function(site_id, callback) {
@@ -85,11 +99,13 @@ var site_cas_data_list_inner = function(site_id, callback) {
 	sql = util.format(sql, site_id);
 	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
 	db_spider_data.connect();
-	db_spider_data.query(sql, function(err, cass, fields){
-		for(i in cass){
+	db_spider_data.query(sql, function(err, cass, fields) {
+		for (i in cass) {
 			cas = cass[i];
-			cas._f_last_update_time = format.asString('yyyy-MM-dd hh:mm:ss',cas.last_update_time);
-			cas._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss',cas.create_time);
+			cas._f_last_update_time = format.asString('yyyy-MM-dd hh:mm:ss',
+					cas.last_update_time);
+			cas._f_create_time = format.asString('yyyy-MM-dd hh:mm:ss',
+					cas.create_time);
 		}
 		db_spider_data.end();
 		return callback(err, cass);
@@ -97,15 +113,28 @@ var site_cas_data_list_inner = function(site_id, callback) {
 };
 exports.site_cas_data_list = site_cas_data_list_inner;
 var site_insert_inner = function(v_id, name, url, callback) {
+	url = url.toLowerCase();
+	var p = URL.parse(url); 
 	var md5 = crypto.createHash('md5');
-	md5.update(url);
+	md5.update(p.hostname);
 	var key = md5.digest('hex').toUpperCase();
-	var sql = "insert into cas_extract_site (v_id, name, url, _key, status) values ('%s', '%s', '%s', '%s', '0') ";
-	sql = util.format(sql, v_id, name, url, key);
+	var sql = "insert into cas_extract_site (v_id, name, domain, url, _key, status) values ('%s', '%s', '%s', '%s', '%s', '0') ";
+	sql = util.format(sql, v_id, name, p.hostname, url, key);
 	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
 	db_spider_data.connect();
-	db_spider_data.query(sql, function(err, cass, fields){
+	db_spider_data.query(sql, function(err, cass, fields) {
 		return callback(err, cass);
 	});
 };
 exports.site_insert = site_insert_inner;
+
+var site_cas_update_inner = function(site_id) {
+	var db_spider_data = mysql.createConnection(config.spider_data_db_server);
+	db_spider_data.connect();
+	sql = 'update cas_extract_site set status=0 where id=%s';
+	sql = util.format(sql, site_id);
+	db_spider_data.query(sql);
+	db_spider_data.end();
+};
+exports.site_cas_update = site_cas_update_inner;
+
